@@ -1,7 +1,7 @@
 import matplotlib.pyplot as plt
 
-from data_pair import DataPair
-from data_file import DataFile
+from src.data_pair import DataPair
+from src.data_file import DataFile
 
 # import the file
 rc_319 = DataFile("rc_319.csv")

@@ -1,12 +1,13 @@
 import matplotlib.pyplot as plt
 
-from data_pair import DataPair
-from data_file import DataFile
+from src.data_pair import DataPair
+from src.data_file import DataFile
+
 
 
 # import the file
-rc_319 = DataFile("rc_319.csv")
-rc_318 = DataFile("rc_318.csv")
+rc_319 = DataFile("csvs/rc_319.csv")
+rc_318 = DataFile("csvs/rc_318.csv")
 
 # get voltage values from both
 pack_voltage_319 = rc_319.get_data_pair("PackVoltage")
