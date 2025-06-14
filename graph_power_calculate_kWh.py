@@ -3,33 +3,23 @@ import matplotlib.pyplot as plt
 from src.data_pair import DataPair
 from src.data_file import DataFile
 
-FILENAME = "csvs/rc_354.csv"
 
 # import the file
-file = DataFile(FILENAME)
+rc_354 = DataFile("csvs/rc_354.csv")
+rc_355 = DataFile("csvs/rc_355.csv")
 
-pack_power_channel = file.get_data_pair("PackPower")
-pack_power_channel.set_y_unit("kWh")
-
-pack_power_channel.graph()
-
-
-ocv = file.get_data_pair("PackVoltage")
-temp = file.get_data_pair("ThermAvg")
-
-ocv.set_y_label("OCV")
-ocv.set_y_unit("V")
-
-temp.set_y_unit("deg C")
+pack_power_354 = rc_354.get_data_pair("PackPower")
+pack_power_355 = rc_355.get_data_pair("PackPower")
 
 
-DataPair.graph_multiple([[ocv], [temp]], 
-                        ['blue'], 
-                        # voltage will be solid line, temp will be dotted line
-                        ['-', ':'])
+DataPair.graph_multiple([[pack_power_354, pack_power_355]], ['blue', 'red'], ['--'])
+
 
 
 print("kWh consumed: ")
-print(pack_power_channel.integrate() / (3.6 * 1000000))
+print(pack_power_354.integrate() / (3.6 * 1000000))
+
+
+print(pack_power_355.integrate() / (3.6 * 1000000))
 
 plt.show()
