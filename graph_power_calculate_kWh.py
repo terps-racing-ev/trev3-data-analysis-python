@@ -3,28 +3,33 @@ import matplotlib.pyplot as plt
 from src.data_pair import DataPair
 from src.data_file import DataFile
 
-FILENAME = "csvs/rc_319.csv"
+FILENAME = "csvs/rc_354.csv"
 
 # import the file
 file = DataFile(FILENAME)
 
-# get voltage and current
-pack_voltage = file.get_data_pair("PackVoltage")
-pack_current = file.get_data_pair("PackCurrent")
+pack_power_channel = file.get_data_pair("PackPower")
+pack_power_channel.set_y_unit("kWh")
 
-# calculate power
-# this function will work even if the two columns are logged at different rates
-pack_power = DataPair.merge_pairs(pack_voltage, pack_current, 
-                                      # multiplication op
-                                      lambda v, c: v * c,
-                                      # new label
-                                      "Power",
-                                      # new unit (matters for label)
-                                      "W")
+pack_power_channel.graph()
 
-pack_power.graph()
+
+ocv = file.get_data_pair("PackVoltage")
+temp = file.get_data_pair("ThermAvg")
+
+ocv.set_y_label("OCV")
+ocv.set_y_unit("V")
+
+temp.set_y_unit("deg C")
+
+
+DataPair.graph_multiple([[ocv], [temp]], 
+                        ['blue'], 
+                        # voltage will be solid line, temp will be dotted line
+                        ['-', ':'])
+
 
 print("kWh consumed: ")
-print(pack_power.integrate() / (3.6 * 1000000000))
+print(pack_power_channel.integrate() / (3.6 * 1000000))
 
 plt.show()

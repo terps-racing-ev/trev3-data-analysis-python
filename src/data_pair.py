@@ -39,7 +39,7 @@ class DataPair:
     # draw this graph
     def graph(self):
         plt.plot(self.x, self.y, label = self.ylabel + " (" + self.filename + ") ")
-        plt.xlabel(self.xlabel + "(" + self.x_unit + ")" + str(len(self.x)))
+        plt.xlabel(self.xlabel + "(" + self.x_unit + ")")
         plt.ylabel(self.ylabel + "(" + self.y_unit + ")")
         plt.legend()
         plt.figure()
@@ -165,8 +165,7 @@ class DataPair:
                 j += 1
 
                 current_offset += 0.2
-                
-        plt.figure()
+        plt.figure()        
         
     # shift the x axis by x_shift units on the x axis
     def get_x_shifted_copy(self, x_shift):
@@ -191,5 +190,17 @@ class DataPair:
             sum += val * (self.x[i] - self.x[i - 1])
         
         return sum
+    
+    def perform_op_return_copy(self, op, new_label, new_unit=None):
+        d = []
+
+        for val in self.y:
+            d.append(op(val))
+
+        if new_unit == None:
+            new_unit = self.y_unit
+
+        return DataPair(self.xlabel, new_label, self.x.copy(), d, self.x_unit, new_unit, self.filename)
+
 
     
